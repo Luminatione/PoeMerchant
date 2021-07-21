@@ -8,10 +8,11 @@
         <file>Graphic/PoeButton.png</file>
         <file>Graphic/PoeButtonClicked.png</file>
         <file>Graphic/PoeButtonHovered.png</file>
-        <file>BasicFilters.qml</file>
         <file>PoeControls/PoeButton.qml</file>
         <file>PoeControls/PoeLineEdit.qml</file>
         <file>PoeControls/PoeComboBox.qml</file>
         <file>Graphic/PoeComboboxIcon.png</file>
+        <file>Components/SearchBar.qml</file>
+        <file>Components/InvestitionItem.qml</file>
     </qresource>
 </RCC>

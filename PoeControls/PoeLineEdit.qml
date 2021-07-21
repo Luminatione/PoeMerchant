@@ -12,8 +12,9 @@ Item {
 	property int fontSize: 18
 	property int maxLength: 0
 	property int textEditWidth: 30
-	height: 25
-
+	property alias placeholderText: placeHolder.text
+	implicitHeight: 30
+	implicitWidth: textEditWidth + label.width + textEditLabelMargin + outerMargin
 	FontLoader
 	{
 		id: fontin
@@ -33,21 +34,21 @@ Item {
 		}
 		anchors
 		{
-			top: parent.top
-			bottom: parent.bottom
+			verticalCenter: parent.verticalCenter
 		}
 	}
 	TextEdit
 	{
+
+		verticalAlignment: Qt.AlignVCenter
 		x: parent.x + label.width + textEditLabelMargin
 		id: textEdit
-		width: textEditWidth
+		width: parent.width - label.width - textEditLabelMargin
 		anchors
 		{
 			top: parent.top
 			bottom: parent.bottom
 		}
-
 		clip: true
 		color: textColor
 		cursorVisible: true
@@ -66,6 +67,7 @@ Item {
 			}
 		}
 
+
 		Rectangle
 		{
 			z: parent.z-1
@@ -76,6 +78,19 @@ Item {
 			{
 				color: borderColor
 				width: 1
+			}
+		}
+		Text
+		{
+			id: placeHolder
+			visible: !textEdit.text
+			verticalAlignment: Qt.AlignVCenter
+			color: labelColor
+			anchors.fill: parent
+			font
+			{
+				pixelSize: fontSize
+				family: fontin.name
 			}
 		}
 	}

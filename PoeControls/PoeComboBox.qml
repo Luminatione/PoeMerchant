@@ -14,9 +14,8 @@ Item {
 	property int fontSize: 18
 	property int textEditWidth: 30
 	property alias model: comboBox.model
-	width: 200
-	height: 30
-	anchors.margins: outerMargin
+	implicitWidth:  200
+	implicitHeight: 30
 	FontLoader
 	{
 		id: fontin
@@ -27,11 +26,7 @@ Item {
 		id: comboBox
 		x: parent.x + label.width + comboboxLabelMargin
 		width: parent.width - label.width
-		anchors
-		{
-			top: parent.top
-			bottom: parent.bottom
-		}
+		anchors.fill: parent
 		background: Rectangle
 		{
 			color: backgroundColor
