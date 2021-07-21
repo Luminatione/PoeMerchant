@@ -14,5 +14,9 @@
         <file>Graphic/PoeComboboxIcon.png</file>
         <file>Components/SearchBar.qml</file>
         <file>Components/InvestitionItem.qml</file>
+        <file>Graphic/Currency/ChaosOrbIcon.png</file>
+        <file>Graphic/Currency/ExaltedOrbIcon.png</file>
+        <file>Graphic/Currency/MirrorOfKalandraIcon.png</file>
+        <file>Graphic/Currency/OrbOfAlchemyIcon.png</file>
     </qresource>
 </RCC>
