@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "DivinationCardLoader.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +20,10 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+    DivinationCardLoader* loader = new DivinationCardLoader();
+    loader->load();
+
+
 
     return app.exec();
 }

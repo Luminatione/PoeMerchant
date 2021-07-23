@@ -4,7 +4,7 @@ import "../PoeControls"
 
 
 Item {
-	Layout.preferredHeight: 100
+	Layout.preferredHeight: 80
 	Layout.fillWidth: true
 
 	RowLayout

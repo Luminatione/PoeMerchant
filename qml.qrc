@@ -18,5 +18,6 @@
         <file>Graphic/Currency/ExaltedOrbIcon.png</file>
         <file>Graphic/Currency/MirrorOfKalandraIcon.png</file>
         <file>Graphic/Currency/OrbOfAlchemyIcon.png</file>
+        <file>Graphic/background.jpg</file>
     </qresource>
 </RCC>

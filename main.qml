@@ -10,10 +10,9 @@ Window {
 	visible: true
 	title: qsTr("Poe Merchant")
 
-	Rectangle
-	{
+	Image {
 		anchors.fill: parent
-		color: "#363636"
+		source: "qrc:/Graphic/background.jpg"
 	}
 
 	ColumnLayout
@@ -30,7 +29,7 @@ Window {
 			Layout.fillHeight: true
 			Layout.fillWidth: true
 			Layout.margins: 5
-			color:"#292929"
+			color:"#AA292929"
 			border
 			{
 				width: 1
@@ -43,6 +42,7 @@ Window {
 						profit: 999, profitCurrencyIcon: "qrc:/Graphic/Currency/ExaltedOrbIcon.png", confidency: 6}, ]
 				clip: true
 				delegate: InvestitionItem{
+
 					cardAmount: modelData.cardAmount
 					cardName: modelData.cardName
 					resultItem: modelData.item

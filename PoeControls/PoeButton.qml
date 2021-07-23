@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item {
 	property alias text: label.text
-
+	property MouseArea mouseAreaObject: mouseArea
 	readonly property int horizontalMargin: 35
 	readonly property int verticalMargin: 17
 

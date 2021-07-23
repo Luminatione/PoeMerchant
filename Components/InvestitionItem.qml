@@ -13,7 +13,9 @@ Item {
 	property color resultItemColor: "white"
 
 	property int upperPartFontSize: 17
-	anchors.fill: parent
+	implicitHeight: 60
+	anchors.right: parent.right
+	anchors.left: parent.left
 	FontLoader
 	{
 		id: fontin
@@ -23,12 +25,13 @@ Item {
 	{
 		anchors.margins: 3
 		anchors.fill: parent
-		color: "#404040"
+		color: "#303030"
 		RowLayout
 		{
+			anchors.fill: parent
+			anchors.margins: 2
 			ColumnLayout
 			{
-				Layout.margins: 10
 				RowLayout
 				{
 					Text {
@@ -166,7 +169,10 @@ Item {
 			{
 				Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 				text: "Lookup"
+				//mouseAreaObject.onClicked:  <- needs  c++ side
+
 			}
 		}
 	}
 }
+
