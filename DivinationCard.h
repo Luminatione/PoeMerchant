@@ -3,11 +3,11 @@
 
 #include <QString>
 
-struct DivinationCard
+#include "ItemData.h"
+
+struct DivinationCard : public ItemData
 {
-    QString name;
     int stackSize;
-    double chaosValue;
     QString reward;
 };
 

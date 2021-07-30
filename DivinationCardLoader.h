@@ -1,32 +1,18 @@
 #ifndef DIVINATIONCARDLOADER_H
 #define DIVINATIONCARDLOADER_H
 
-#include <QHash>
-#include <QSharedPointer>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QNetworkRequest>
-
 #include "rapidjson/document.h"
 #include "DivinationCard.h"
+#include "ItemDataLoader.h"
 
-#define DIVINATION_CARDS_AMOUNT 355
 
-template <typename T> class  DivinationCardLoader : public QObject
+class  DivinationCardLoader : public QObject, public ItemDataLoader<DivinationCard>
 {
     Q_OBJECT
-    QSharedPointer<QVector<DivinationCard>> cards = QSharedPointer<QVector<DivinationCard>>(new QVector<DivinationCard>());
-    QString url = "https://poe.ninja/api/data/itemoverview?type=DivinationCard&league=Standard";
-    QNetworkReply* currentReply;
-    QSharedPointer<QNetworkAccessManager> accessManager;
-
-    void loadStashTab();
-    void readWebsiteContent();
-    void onError(QNetworkReply::NetworkError errorCode);
+    DATA_LOADER("DivinationCard")
+    void parseItem(rapidjson::Value::ConstValueIterator iter) override;
 public:
-    DivinationCardLoader();
-    void load();
-   QVector<DivinationCard>* get();
+    using ItemDataLoader::ItemDataLoader;
 };
 
 #endif // DIVINATIONCARDLOADER_H

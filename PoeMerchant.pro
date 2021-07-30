@@ -10,7 +10,7 @@ SOURCES += \
         DivinationCardFilter.cpp \
         DivinationCardLoader.cpp \
         EasySellableRewardFilter.cpp \
-        ItemDataLoader.cpp \
+        MultipleItemsTypeLoader.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -27,6 +27,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    ItemDataLoaders/Headers/a.txt \
+    ItemDataLoaders/Sources/a.txt \
     PoeControls/PoeButton.qml \
     PoeControls/PoeComboBox.qml \
     PoeControls/PoeLineEdit.qml
@@ -38,6 +40,7 @@ HEADERS += \
     EasySellableRewardFilter.h \
     ItemData.h \
     ItemDataLoader.h \
+    MultipleItemsTypeLoader.h \
     rapidjson/allocators.h \
     rapidjson/cursorstreamwrapper.h \
     rapidjson/document.h \

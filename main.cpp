@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QNetworkAccessManager>
 
 #include "DivinationCardLoader.h"
-
+#include "MultipleItemsTypeLoader.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,10 +21,10 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-    DivinationCardLoader* loader = new DivinationCardLoader();
+    QNetworkAccessManager* accessManager = new QNetworkAccessManager();
+    DivinationCardLoader* loader = new DivinationCardLoader(accessManager, "Standard");
     loader->load();
-
-
-
+    MultipleItemsTypeLoader* itemLoader = new  MultipleItemsTypeLoader(accessManager, "Standard", {"UniqueAccessory", "UniqueArmour", "UniqueWeapon", "UniqueFlask", "UniqueJewel", "DivinationCard", "Prophecy", "SkillGem"});
+    itemLoader->loadItems();
     return app.exec();
 }

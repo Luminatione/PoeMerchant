@@ -5,7 +5,8 @@
 struct ItemData
 {
     QString name;
-    int price;
+    int chaosValue;
+    int amount = 1;
 };
 
 #endif // ITEMDATA_H

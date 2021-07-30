@@ -2,49 +2,19 @@
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 
-DivinationCardLoader::DivinationCardLoader()
+void DivinationCardLoader::parseItem(rapidjson::Value::ConstValueIterator iter)
 {
-    accessManager = QSharedPointer<QNetworkAccessManager>(new QNetworkAccessManager());
-    cards->reserve(DIVINATION_CARDS_AMOUNT);
-}
-void DivinationCardLoader::load()
-{
-    currentReply = accessManager->get(QNetworkRequest(QUrl(url)));
-
-    connect(accessManager.get(), &QNetworkAccessManager::finished, this, &DivinationCardLoader::readWebsiteContent);
-    connect(currentReply, &QNetworkReply::errorOccurred, this, &DivinationCardLoader::onError);
-}
-QVector<DivinationCard>* DivinationCardLoader::get()
-{
-    return cards.get();
-}
-void DivinationCardLoader::readWebsiteContent()
-{
-    QString websiteContent = currentReply->readAll();
-    rapidjson::Document jsonWebsiteContent;
-    jsonWebsiteContent.Parse(websiteContent.toStdString().c_str());
-    if(!jsonWebsiteContent.IsNull())
+    DivinationCard* card = new DivinationCard();
+    card->name = (*iter)["artFilename"].GetString();
+    card->reward = (*iter)["explicitModifiers"][0]["text"].GetString();
+    card->chaosValue = (*iter)["chaosValue"].GetDouble();
+    if((*iter).HasMember("stackSize"))
     {
-        for(rapidjson::Value::ConstValueIterator iter = jsonWebsiteContent["lines"].Begin(); iter != jsonWebsiteContent["lines"].End(); ++iter)
-        {
-            DivinationCard card;
-            card.name = (*iter)["artFilename"].GetString();
-            card.reward = (*iter)["explicitModifiers"][0]["text"].GetString();
-            card.chaosValue = (*iter)["chaosValue"].GetDouble();
-            if((*iter).HasMember("stackSize"))
-            {
-                card.stackSize = (*iter)["stackSize"].GetInt();
-            }
-            else
-            {
-                card.stackSize = 1;
-            }
-            cards->push_back(card);
-            qDebug() << card.reward;
-        }
+        card->stackSize = (*iter)["stackSize"].GetInt();
     }
-}
-void DivinationCardLoader::onError(QNetworkReply::NetworkError errorCode)
-{
-    qDebug() << errorCode;
+    else
+    {
+        card->stackSize = 1;
+    }
+    items->push_back(card);
 }
