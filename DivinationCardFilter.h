@@ -8,7 +8,7 @@
 class DivinationCardFilter
 {
 public:
-    virtual void filter(QVector<DivinationCard> &cards) = 0;
+    virtual void filter(QVector<DivinationCard*>* cards) = 0;
 };
 
 #endif // DIVINATIONCARDFILTER_H

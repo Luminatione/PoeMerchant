@@ -6,7 +6,7 @@ void DivinationCardLoader::parseItem(rapidjson::Value::ConstValueIterator iter)
 {
     DivinationCard* card = new DivinationCard();
     card->name = (*iter)["artFilename"].GetString();
-    card->reward = (*iter)["explicitModifiers"][0]["text"].GetString();
+    card->rewardRawName = (*iter)["explicitModifiers"][0]["text"].GetString();
     card->chaosValue = (*iter)["chaosValue"].GetDouble();
     if((*iter).HasMember("stackSize"))
     {

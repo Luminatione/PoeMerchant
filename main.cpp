@@ -4,6 +4,21 @@
 
 #include "DivinationCardLoader.h"
 #include "MultipleItemsTypeLoader.h"
+#include "EasySellableRewardFilter.h"
+
+DivinationCardLoader* loader;
+
+void print()
+{
+    auto a = loader->get();
+    EasySellableRewardFilter filter;
+    filter.filter(a);
+    for(auto& card : *a)
+    {
+        card->translateRewardRawNameToItemData();
+        qDebug() << card->reward.name << '\n';
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -22,9 +37,11 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
     QNetworkAccessManager* accessManager = new QNetworkAccessManager();
-    DivinationCardLoader* loader = new DivinationCardLoader(accessManager, "Standard");
+    loader = new DivinationCardLoader(accessManager, "Standard");
+    loader->setOnItemsReadyToRead(print);
     loader->load();
     MultipleItemsTypeLoader* itemLoader = new  MultipleItemsTypeLoader(accessManager, "Standard", {"UniqueAccessory", "UniqueArmour", "UniqueWeapon", "UniqueFlask", "UniqueJewel", "DivinationCard", "Prophecy", "SkillGem"});
     itemLoader->loadItems();
     return app.exec();
 }
+

@@ -25,11 +25,13 @@ MultipleItemsTypeLoader::MultipleItemsTypeLoader(QNetworkAccessManager *accessMa
 
 void MultipleItemsTypeLoader::loadItems()
 {
+    areAllPagesRequested = false;
     QString urlCopy = url.replace("{league}", league);
-    for(QString& type : itemTypes)
+    for(int i = 0; i < itemTypes.size(); ++i)
     {
-        url = url.replace("{type}", type);
+        url = url.replace("{type}", itemTypes[i]);
         load();
         url = urlCopy;
+        areAllPagesRequested = i == (itemTypes.size() - 1);
     }
 }

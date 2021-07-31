@@ -10,6 +10,17 @@
 #include "rapidjson/document.h"
 #include "ItemData.h"
 
+#define DATA_LOADER(type)  QString _type = type;\
+void connect()\
+{\
+     QObject::connect(currentReply, &QNetworkReply::finished, [this](){readWebsiteContent(currentReply);});\
+}\
+void initialize()\
+{\
+     url = url.replace("{type}", _type).replace("{league}", league);\
+}\
+
+
 template <class T> class ItemDataLoader
 {
 protected:
@@ -18,7 +29,10 @@ protected:
     QNetworkReply* currentReply;
     QSharedPointer<QNetworkAccessManager> accessManager;
     QString league;
-    virtual void initialize() = 0;
+    bool areAllPagesRequested = true;
+    QFunctionPointer itemsReadyToRead = [](){};//can't use sigal/slot mechanism bcs it needs class to be QObject which dosn't support generic classes
+
+    virtual void initialize() = 0;   
     virtual void parseItem(rapidjson::Value::ConstValueIterator iter)
     {
         ItemData* item = new ItemData();
@@ -43,6 +57,10 @@ protected:
                 parseItem(iter);
             }
         }
+        if(areAllPagesRequested)
+        {
+            itemsReadyToRead();
+        }
     }
 public:
     ItemDataLoader(){}
@@ -55,7 +73,11 @@ public:
     }
    QVector<T*>* get()
    {
-       return items.get();
+       return reinterpret_cast<QVector<T*>*>(items.get());
+   }
+   void setOnItemsReadyToRead(QFunctionPointer function)
+   {
+        itemsReadyToRead = function;
    }
 };
 
