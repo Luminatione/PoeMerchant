@@ -7,7 +7,8 @@ class EasySellableRewardFilter : public DivinationCardFilter
 {
     QVector<QString> blacklistedKeywords {"<rareitem>", "<whiteitem>", "<magicitem>", "<normal>", " Item", "Item "};
 public:
-    void filter(QVector<DivinationCard*>* cards) override;
+    EasySellableRewardFilter(){};
+    void filter(QVector<std::shared_ptr<DivinationCard>>* cards) override;
 };
 
 #endif // EASYSELLABLEREWARDFILTER_H

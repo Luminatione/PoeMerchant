@@ -10,75 +10,48 @@
 #include "rapidjson/document.h"
 #include "ItemData.h"
 
-#define DATA_LOADER(type)  QString _type = type;\
-void connect()\
-{\
-     QObject::connect(currentReply, &QNetworkReply::finished, [this](){readWebsiteContent(currentReply);});\
-}\
-void initialize()\
-{\
-     url = url.replace("{type}", _type).replace("{league}", league);\
-}\
+#define DATA_LOADER(type)
 
 
-template <class T> class ItemDataLoader
+class ItemDataLoader : public QObject
 {
-protected:
-    QSharedPointer<QVector<ItemData*>> items = QSharedPointer<QVector<ItemData*>>(reinterpret_cast<QVector<ItemData*>*>(new QVector<T*>()));
-    QString url = "https://poe.ninja/api/data/itemoverview?type={type}&league={league}";
-    QNetworkReply* currentReply;
-    QSharedPointer<QNetworkAccessManager> accessManager;
-    QString league;
-    bool areAllPagesRequested = true;
-    QFunctionPointer itemsReadyToRead = [](){};//can't use sigal/slot mechanism bcs it needs class to be QObject which dosn't support generic classes
 
-    virtual void initialize() = 0;   
-    virtual void parseItem(rapidjson::Value::ConstValueIterator iter)
-    {
-        ItemData* item = new ItemData();
-        item->name = (*iter)["name"].GetString();
-        item->chaosValue = (*iter)["chaosValue"].GetDouble();
-        items->push_back(item);
-    }
-    virtual void connect() = 0;
-    void onError(QNetworkReply::NetworkError errorCode)//TODO: provide better implementation
-    {
-         qDebug() << errorCode;
-    }
-    virtual void readWebsiteContent(QNetworkReply* reply)
-    {
-        QString websiteContent = reply->readAll();
-        rapidjson::Document jsonWebsiteContent;
-        jsonWebsiteContent.Parse(websiteContent.toStdString().c_str());
-        if(!jsonWebsiteContent.IsNull())
-        {
-            for(rapidjson::Value::ConstValueIterator iter = jsonWebsiteContent["lines"].Begin(); iter != jsonWebsiteContent["lines"].End(); ++iter)
-            {
-                parseItem(iter);
-            }
-        }
-        if(areAllPagesRequested)
-        {
-            itemsReadyToRead();
-        }
-    }
+    Q_OBJECT
+
+protected:
+    std::shared_ptr<QVector<std::shared_ptr<ItemData>>> items =  std::shared_ptr<QVector<std::shared_ptr<ItemData>>>(new QVector<std::shared_ptr<ItemData>>());
+
+    QString apiUrl = "https://poe.ninja/api/data/itemoverview?type={type}&league={league}";
+
+    std::unique_ptr<QNetworkReply> currentReply;
+    QNetworkAccessManager* accessManager;
+
+    int readWebsiteContentDesiredHits = 1;
+    int readWebsiteContentHits = 0;
+
+    QString itemType;
+    QString league;
+
+    virtual void connect();
+
+    virtual void initialize();
+
+    virtual void parseItem(rapidjson::Value::ConstValueIterator iter);
+
+    virtual void onError(QNetworkReply::NetworkError errorCode);
+
+    virtual void readWebsiteContent(QNetworkReply* reply);
+
 public:
     ItemDataLoader(){}
+
     ItemDataLoader(QNetworkAccessManager* accessManager, QString league) : accessManager(accessManager), league(league){}
-    virtual void load()
-    {
-        initialize();
-        currentReply = accessManager->get(QNetworkRequest(QUrl(url)));
-        connect();
-    }
-   QVector<T*>* get()
-   {
-       return reinterpret_cast<QVector<T*>*>(items.get());
-   }
-   void setOnItemsReadyToRead(QFunctionPointer function)
-   {
-        itemsReadyToRead = function;
-   }
+
+    virtual void load();
+
+    QVector<std::shared_ptr<ItemData>>* getItems();
+signals:
+    void allItemsLoaded();
 };
 
 #endif // ITEMDATALOADER_H

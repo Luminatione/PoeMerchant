@@ -12,26 +12,19 @@ void MultipleItemsTypeLoader::connect()
 
 void MultipleItemsTypeLoader::load()
 {
-    QNetworkRequest request;
-    request.setUrl(url);
-    QNetworkReply* reply = accessManager->get(request);
-    QObject::connect(reply, &QNetworkReply::finished,this, [this,  reply](){
-        readWebsiteContent(reply);
-    });
-    QObject::connect(reply, &QNetworkReply::errorOccurred,[this](){ onError(QNetworkReply::BackgroundRequestNotAllowedError);});
-}
-
-MultipleItemsTypeLoader::MultipleItemsTypeLoader(QNetworkAccessManager *accessManager, QString league, QVector<QString> itemTypes) : ItemDataLoader<ItemData>(accessManager, league), itemTypes(itemTypes){}
-
-void MultipleItemsTypeLoader::loadItems()
-{
-    areAllPagesRequested = false;
-    QString urlCopy = url.replace("{league}", league);
+    readWebsiteContentDesiredHits = itemTypes.size();
+    QString urlCopy = apiUrl.replace("{league}", league);
     for(int i = 0; i < itemTypes.size(); ++i)
     {
-        url = url.replace("{type}", itemTypes[i]);
-        load();
-        url = urlCopy;
-        areAllPagesRequested = i == (itemTypes.size() - 1);
+        apiUrl = apiUrl.replace("{type}", itemTypes[i]);
+            QNetworkRequest request;
+            request.setUrl(apiUrl);
+            QNetworkReply* reply = accessManager->get(request);
+            QObject::connect(reply, &QNetworkReply::finished,this, [this,  reply](){
+                readWebsiteContent(reply);
+            });
+        apiUrl = urlCopy;
     }
 }
+
+MultipleItemsTypeLoader::MultipleItemsTypeLoader(QNetworkAccessManager *accessManager, QString league, QVector<QString> itemTypes) : ItemDataLoader(accessManager, league), itemTypes(itemTypes){}

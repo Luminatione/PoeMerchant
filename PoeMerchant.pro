@@ -10,7 +10,14 @@ SOURCES += \
         DivinationCardFilter.cpp \
         DivinationCardLoader.cpp \
         EasySellableRewardFilter.cpp \
+        Investition.cpp \
+        InvestitionModel.cpp \
+        InvestitionModelFactory.cpp \
+        ItemDataLoader.cpp \
+        MainWindow.cpp \
+        ModelSetter.cpp \
         MultipleItemsTypeLoader.cpp \
+        NameFilter.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -38,9 +45,15 @@ HEADERS += \
     DivinationCardFilter.h \
     DivinationCardLoader.h \
     EasySellableRewardFilter.h \
+    Investition.h \
+    InvestitionModel.h \
+    InvestitionModelFactory.h \
     ItemData.h \
     ItemDataLoader.h \
+    MainWindow.h \
+    ModelSetter.h \
     MultipleItemsTypeLoader.h \
+    NameFilter.h \
     rapidjson/allocators.h \
     rapidjson/cursorstreamwrapper.h \
     rapidjson/document.h \

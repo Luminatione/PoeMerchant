@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.12
 import "../PoeControls"
-
+import com.MainWindow 1
 
 Item {
 	Layout.preferredHeight: 80
@@ -13,7 +13,7 @@ Item {
 		anchors.fill: parent
 		PoeLineEdit
 		{
-
+            objectName: "searchLineEdit"
 			labelText: "";
 			placeholderText: "Search Items"
 			textEditWidth: 200
@@ -25,17 +25,24 @@ Item {
 		}		
 		PoeComboBox
 		{
-			model: ["Expeditions", "Standard", "Hardcore"]
+			id: leagueSelection
+			objectName: "leagueSelection"
+			model: ["Expedition", "Standard"]
 			labelText: ""
 			Layout.minimumWidth: 100
 			Layout.preferredWidth: 150
 		}
 		PoeButton
 		{
+			objectName: "searchButton"
+			property MainWindow mainWindow
 			text: "Search"
 			Layout.minimumWidth: 100
 			Layout.rightMargin: 5
-
+			mouseAreaObject.onClicked:
+			{
+				mainWindow.search();
+			}
 		}
 	}
 

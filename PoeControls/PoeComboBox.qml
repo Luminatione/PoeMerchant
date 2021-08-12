@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 Item {
+	property alias selectedOptionText: comboBox.currentText
 	property int comboboxLabelMargin: 10
 	property int outerMargin: 10
 	property alias labelText: label.text

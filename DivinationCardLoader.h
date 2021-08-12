@@ -6,13 +6,15 @@
 #include "ItemDataLoader.h"
 
 
-class  DivinationCardLoader : public QObject, public ItemDataLoader<DivinationCard>
+class  DivinationCardLoader : public ItemDataLoader
 {
     Q_OBJECT
-    DATA_LOADER("DivinationCard")
     void parseItem(rapidjson::Value::ConstValueIterator iter) override;
 public:
-    using ItemDataLoader::ItemDataLoader;
+    DivinationCardLoader(QNetworkAccessManager* accessManager, QString league) : ItemDataLoader(accessManager, league)
+    {
+        itemType = "DivinationCard";
+    }
 };
 
 #endif // DIVINATIONCARDLOADER_H

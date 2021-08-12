@@ -1,21 +1,26 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.12
+import QtQuick.Window 2.12
 import "../PoeControls"
 Item {
-	property alias cardAmount: cardAmountLabel.text
-	property alias cardName: cardNameLabel.text
-	property alias resultItem: resultItemLabel.text
-	property alias cost: costLabel.text
-	property alias profit: profitLabel.text
-	property alias confidency: confidencyLabel.text
-	property string profitCurrencyIcon: ""
-	property string costCurrencyIcon: ""
-	property color resultItemColor: "white"
+	property alias _cardAmount: cardAmountLabel.text
+	property alias _cardName: cardNameLabel.text
+	property alias _resultItem: resultItemLabel.text
+	property alias _cost: costLabel.text
+	property alias _profit: profitLabel.text
+	property string _profitCurrencyIcon: ""
+	property string _costCurrencyIcon: ""
+	property color _resultItemColor: "white"
 
 	property int upperPartFontSize: 17
 	implicitHeight: 60
-	anchors.right: parent.right
-	anchors.left: parent.left
+    anchors.right: parent ? parent.right : undefined
+    anchors.left: parent ? parent.left : undefined
+    TextEdit
+    {
+        id: copyTextEdit
+        visible: false
+    }
 	FontLoader
 	{
 		id: fontin
@@ -51,6 +56,16 @@ Item {
 							family: fontin.name
 							pixelSize: upperPartFontSize
 						}
+                        MouseArea {
+                            anchors.fill: parent;
+                            onClicked:
+                            {
+                                copyTextEdit.text = parent.text;
+                                copyTextEdit.selectAll();
+                                copyTextEdit.copy();
+                            }
+                        }
+
 					}
 					Text {
 						text: "to"
@@ -69,7 +84,16 @@ Item {
 							family: fontin.name
 							pixelSize: upperPartFontSize
 						}
-						color: resultItemColor
+						color: _resultItemColor
+                        MouseArea {
+                            anchors.fill: parent;
+                            onClicked:
+                            {
+                                copyTextEdit.text = parent.text;
+                                copyTextEdit.selectAll();
+                                copyTextEdit.copy();
+                            }
+                        }
 					}
 				}
 				RowLayout
@@ -132,45 +156,7 @@ Item {
 						Layout.preferredHeight: 22
 						source: profitCurrencyIcon
 					}
-					Text
-					{
-						text: "Confidency: "
-						color: "white"
-						font
-						{
-							family: fontin.name
-							pixelSize: 15
-						}
-					}
-					Text
-					{
-						id: confidencyLabel
-						color: text>70 ? "#7fbf4b" : text>50 ? "#f0c51a" : "#f0451a"
-						font
-						{
-							family: fontin.name
-							pixelSize: 15
-						}
-					}
-					Text
-					{
-						text: "%"
-						color: confidencyLabel.color
-						font
-						{
-							family: fontin.name
-							pixelSize: 15
-						}
-					}
 				}
-			}
-
-			PoeButton
-			{
-				Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-				text: "Lookup"
-				//mouseAreaObject.onClicked:  <- needs  c++ side
-
 			}
 		}
 	}

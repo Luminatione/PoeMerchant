@@ -2,13 +2,16 @@
 #define DIVINATIONCARDFILTER_H
 
 #include <QVector>
+#include <memory>
 
 #include "DivinationCard.h"
 
 class DivinationCardFilter
 {
 public:
-    virtual void filter(QVector<DivinationCard*>* cards) = 0;
+    DivinationCardFilter(){};
+    virtual void filter(QVector<std::shared_ptr<DivinationCard>>* cards) = 0;
+    virtual ~DivinationCardFilter(){};
 };
 
 #endif // DIVINATIONCARDFILTER_H

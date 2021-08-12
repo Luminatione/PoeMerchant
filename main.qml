@@ -4,16 +4,17 @@ import QtQuick.Layouts 1.12
 import "PoeControls"
 import "Components"
 
-Window {
-	width: 640
-	height: 480
-	visible: true
-	title: qsTr("Poe Merchant")
+Item {
+
+	property alias myModel: list.model;
+
+    width: 640
+    height: 480
 
 	Image {
 		anchors.fill: parent
 		source: "qrc:/Graphic/background.jpg"
-	}
+
 
 	ColumnLayout
 	{
@@ -37,23 +38,26 @@ Window {
 			}
 			ListView
 			{
+				id: list
+				objectName: "list"
 				anchors.fill: parent
 				model: [{cardAmount: 9, cardName: "House of Mirrors", item:"Mirror of Kalandra",  itemColor: "#aa9e82", cost: 1, costCurrencyIcon: "qrc:/Graphic/Currency/ChaosOrbIcon.png",
-						profit: 999, profitCurrencyIcon: "qrc:/Graphic/Currency/ExaltedOrbIcon.png", confidency: 6}, ]
+						profit: 999, profitCurrencyIcon: "qrc:/Graphic/Currency/ExaltedOrbIcon.png", itemAmount: 6}]
 				clip: true
 				delegate: InvestitionItem{
 
-					cardAmount: modelData.cardAmount
-					cardName: modelData.cardName
-					resultItem: modelData.item
-					resultItemColor: modelData.itemColor
-					cost:  modelData.cost
-					costCurrencyIcon: modelData.costCurrencyIcon
-					profit:  modelData.profit
-					profitCurrencyIcon: modelData.profitCurrencyIcon
-					confidency: modelData.confidency
+					_cardAmount: cardAmount
+					_cardName: cardName
+					_resultItem: item
+					_resultItemColor: itemColor
+					_cost:  cost
+					_costCurrencyIcon: costCurrencyIcon
+					_profit:  profit
+					_profitCurrencyIcon: profitCurrencyIcon
 				}
 			}
 		}
 	}
 }
+}
+

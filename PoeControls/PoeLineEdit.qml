@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Item {
+    property alias text: textEdit.text
 	property int textEditLabelMargin: 10
 	property int outerMargin: 10
 	property alias labelText: label.text
@@ -39,7 +40,6 @@ Item {
 	}
 	TextEdit
 	{
-
 		verticalAlignment: Qt.AlignVCenter
 		x: parent.x + label.width + textEditLabelMargin
 		id: textEdit

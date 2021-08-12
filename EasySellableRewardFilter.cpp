@@ -1,6 +1,6 @@
 #include "EasySellableRewardFilter.h"
 
-void EasySellableRewardFilter::filter(QVector<DivinationCard*>* cards)
+void EasySellableRewardFilter::filter(QVector<std::shared_ptr<DivinationCard>>* cards)
 {
     for(int i = 0; i < cards->size(); ++i)
     {

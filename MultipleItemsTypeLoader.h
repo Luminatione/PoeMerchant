@@ -5,17 +5,16 @@
 
 #include "ItemDataLoader.h"
 
-class MultipleItemsTypeLoader : public QObject, public ItemDataLoader<ItemData>
+class MultipleItemsTypeLoader : public ItemDataLoader
 {
     Q_OBJECT
     QVector<QString> itemTypes;
     void initialize() override;
     void connect() override;
-    void load() override;
-    using ItemDataLoader<ItemData>::readWebsiteContent;
+    using ItemDataLoader::readWebsiteContent;
 public:
+    void load() override;
     MultipleItemsTypeLoader(QNetworkAccessManager* accessManager, QString league, QVector<QString> itemTypes);
-    void loadItems();
 };
 
 #endif // MULTIPLEITEMSTYPELOADER_H
